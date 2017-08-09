@@ -1,0 +1,70 @@
+/**
+ * color setup helper
+ */
+
+$color-headline-selector: '.headline' !default;
+
+/**
+ * return color values of property, based for color properties
+ * feature implementation for material colors
+ *
+ * example:
+ *  $property: (#00000, #00001, #00002)
+ */
+@function color($values, $type: background) {
+  $length: length($values);
+
+  // font color
+  @if ($type == color) {
+    @if ($length > 1) {
+      @return nth($values, 2);
+    }
+    @return null;
+  }
+
+  // headline color
+  @if ($type == headline) {
+    @if ($length > 2) {
+      @return nth($values, 3);
+    }
+    @return null;
+  }
+
+  // background
+  @if ($type == background) {
+    @return nth($values, 1);
+  }
+
+  @return null;
+}
+
+/**
+ * set property by type of color
+ */
+@mixin color-property($values, $type) {
+  $color: color($values, $type);
+
+  @if ($color != null) {
+    @if ($type == background) {
+      background-color: $color;
+    }
+    @else if ($type == color) {
+      color: $color;
+      fill: $color;
+    }
+    @else if ($type == headline) {
+      #{$color-headline-selector} {
+        color: $color;
+      }
+    }
+  }
+}
+
+/**
+ * import all types of color
+ */
+@mixin color($values) {
+  @include color-property($values, background);
+  @include color-property($values, color);
+  @include color-property($values, headline);
+}

@@ -1,0 +1,17 @@
+ /**
+ * border-radius
+ **/
+ @mixin border-radius($direction, $radius) {
+   @if ($direction == top) {
+     border-top: {
+       left-radius: $radius;
+       right-radius: $radius;
+     }
+   } @else if ($direction == bottom) {
+     border-bottom: {
+       left-radius: $radius;
+       right-radius: $radius;
+     }
+   }
+ }
+

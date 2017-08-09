@@ -1,0 +1,7 @@
+/**
+ * space-horizontal
+ **/
+@mixin space-horizontal($space, $type: padding) {
+  #{$type}-left: $space;
+  #{$type}-right: $space;
+}

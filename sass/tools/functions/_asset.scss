@@ -1,0 +1,14 @@
+/**
+ * get asset by path
+ */
+$asset-path: './' !default;
+@function asset($name) {
+  @return '#{$asset-path}#{$name}';
+}
+
+/**
+ * get asset by path with url flag
+ */
+@function asset-url($name) {
+  @return url(asset($name));
+}

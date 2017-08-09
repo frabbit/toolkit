@@ -1,0 +1,11 @@
+/**
+ * add-vertical-align-helper
+ **/
+@mixin add-vertical-align-helper($position: before) {
+  &::#{$position} {
+    content: '';
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+  }
+}

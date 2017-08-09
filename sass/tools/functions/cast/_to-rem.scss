@@ -1,0 +1,14 @@
+/**
+ * cast value to rem value
+ **/
+$pixel-to-rem: 16px !default;
+@function to-rem($value) {
+  @if unit($value) == rem {
+    @return $value;
+  }
+  @if unit($value) == px {
+    @return $value / $pixel-to-rem * 1rem;
+  }
+
+  @return $value;
+}

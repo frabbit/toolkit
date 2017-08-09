@@ -1,0 +1,36 @@
+/**
+ * create responsive property helpers
+ **/
+
+
+/**
+ * create property value for assets or as default
+ *
+ * @param $name string or list of strings (font-size, margin, aso...)
+ */
+@mixin property-value($name, $value, $asset: false) {
+  @if ($value != null) {
+    @each $n in $name {
+      @if ($asset) {
+        #{$n}: asset-url($value);
+      } @else {
+        #{$n}: $value;
+      }
+    }
+  }
+}
+
+/**
+ * create responsive property
+ */
+@mixin property($name, $values, $asset: false) {
+  // small first
+  @include property-value($name, value($values, sm), $asset);
+
+  @include media-breakpoint-up(md) {
+    @include property-value($name, value($values, md), $asset);
+  }
+  @include media-breakpoint-up(lg) {
+    @include property-value($name, value($values, lg), $asset);
+  }
+}

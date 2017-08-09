@@ -1,0 +1,29 @@
+/**
+ * cast values or list values to pixel
+ */
+$pixel-to-rem: 16px !default;
+@function to-pixel($values) {
+  @if (type_of($values) == list) {
+    $list: ();
+    @each $value in $values {
+      $v: to-pixel($value);
+      $list: append($list, $v);
+    }
+    @return $list;
+
+  } @else if (type_of($values) == number) {
+    @if unit($values) == px {
+      @return $values;
+    } @else if unit($values) == rem {
+      @return ($values / 1rem) * $pixel-to-rem;
+    }
+
+    // return rem
+    @if unitless($values) {
+      @return $values * 1px;
+    }
+
+  }
+
+  @return $values;
+}

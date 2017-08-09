@@ -1,0 +1,55 @@
+@import "./property";
+@import "../../functions/bootstrap/value";
+
+/**
+ * font-style helpers
+ **/
+
+@mixin font-size($values) {
+  @include property(font-size, $values);
+}
+
+@mixin font-values($response-values) {
+  // font size
+  $size: map-get($response-values, size);
+  font-size: rem($size);
+
+  // line-height
+  $line: map-get($response-values, line);
+  @if (type-of($line) == number) {
+    line-height: rem($line);
+  }
+
+  //letter-spacing
+  $spacing: map-get($response-values, spacing);
+  @if (type-of($spacing) == number) {
+    letter-spacing: rem($spacing);
+  }
+}
+
+@mixin font-set($styles) {
+  // small first
+  $small: value($styles);
+  @include font-values($small);
+
+  // has medium
+  @if (length($styles) > 1) {
+    $medium: value($styles, md);
+    @if ($medium) {
+      @include media-breakpoint-up(md) {
+        @include font-values($medium);
+      }
+    }
+
+    // has large
+    @if (length($styles) > 2) {
+      $large: value($styles, lg);
+
+      @if ($large) {
+        @include media-breakpoint-up(lg) {
+          @include font-values($large);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+/**
+ * space-vertical
+ **/
+@mixin space-vertical($space, $type: padding) {
+  #{$type}-top: $space;
+  #{$type}-bottom: $space;
+}

@@ -1,0 +1,11 @@
+/**
+ * rect
+ **/
+@mixin rect($size, $height: null) {
+  @if $height == null {
+    $height: $size;
+  }
+  width: $size;
+  height: $height;
+  line-height: $height;
+}

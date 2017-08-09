@@ -1,0 +1,21 @@
+/**
+ * return responsive values, always as fallback use mobile
+ */
+@function value($values, $type: null) {
+  $length: length($values);
+
+  @if ($type == lg) {
+    @if ($length > 2) {
+      @return nth($values, 3);
+    }
+    $type: md;
+  }
+
+  @if ($type == md) {
+    @if ($length > 1) {
+      @return nth($values, 2);
+    }
+  }
+
+  @return nth($values, 1); // get mobile as default
+}
