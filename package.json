@@ -6,9 +6,10 @@
     "type": "git",
     "url": "git@git.db-n.com:dbn-kickstart/toolkit.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["services", "utilities"],
+  "author": "Darius Sobczak<darius.sobczak@db-n.com>",
+  "license": "private",
+  "private": true,
   "dependencies": {
     "rxjs": "^5.4.2"
   }

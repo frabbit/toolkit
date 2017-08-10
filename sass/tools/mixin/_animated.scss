@@ -1,9 +1,0 @@
-/**
- * animated
- */
-@mixin animated($animation, $properties) {
-  will-change: $properties;
-  transition: $animation {
-    property: $properties;
-  }
-}
