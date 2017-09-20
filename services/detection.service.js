@@ -32,10 +32,22 @@ export class DetectionService {
     return this.result.device.type;
   }
 
+  /**
+   * check stylesheet support
+   *
+   * @param prop
+   * @param value
+   * @returns {boolean}
+   */
   isStyleSupported(prop, value) {
     try {
       var style = this.node.style;
-      if (!(prop in style)) return false;
+      // check if property exists
+      if (!style.hasOwnProperty(prop)) {
+        return false;
+      }
+
+      // check if property catch same result
       style[prop] = value;
       return (style[prop] === value);
     }
