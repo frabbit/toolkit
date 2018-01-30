@@ -6,11 +6,21 @@
     "type": "git",
     "url": "git@git.db-n.com:dbn-kickstart/toolkit.git"
   },
-  "keywords": ["services", "utilities"],
+  "keywords": [
+    "services",
+    "utilities"
+  ],
   "author": "Darius Sobczak<darius.sobczak@db-n.com>",
   "license": "private",
   "private": true,
   "dependencies": {
     "rxjs": "^5.4.2"
+  },
+  "devDependencies": {
+    "glob": "^7.1.2",
+    "karma": "^1.7.1"
+  },
+  "scripts": {
+    "test": "karma start"
   }
 }

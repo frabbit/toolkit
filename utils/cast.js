@@ -1,4 +1,4 @@
-import {type} from './type';
+import { type } from './type';
 
 export const ROUND_QUARTER = 4;
 export const ROUND_HALF = 2;
@@ -69,7 +69,7 @@ export const cast = {
     value = cast.number(value);
 
     if (type.number(value)) {
-      return (Math.round(value * round) / round);
+      return Math.round(value * round) / round;
     }
 
     return defaults;
@@ -91,5 +91,18 @@ export const cast = {
     }
 
     return [];
+  },
+
+  /**
+   * cast value to function
+   *
+   * @param value
+   * @return {Function}
+   */
+  function(value) {
+    if (!type.function(value)) {
+      return () => {};
+    }
+    return value;
   },
 };
