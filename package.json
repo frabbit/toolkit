@@ -1,18 +1,20 @@
 {
   "name": "@deepblue/toolkit",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "toolkit scripts and utilities",
   "repository": {
     "type": "git",
-    "url": "git@git.db-n.com:dbn-kickstart/toolkit.git"
+    "url": "git@github.com:deepblue-networks/toolkit.git"
   },
   "keywords": [
     "services",
     "utilities"
   ],
   "author": "Darius Sobczak<darius.sobczak@db-n.com>",
-  "license": "private",
-  "private": true,
+  "license": "MIT",
+  "peerDependencies": {
+    "vue": "^2.1.0"
+  },
   "dependencies": {
     "rxjs": "^5.4.2"
   },
