@@ -7,7 +7,7 @@ export const MEDIA_QUERY_TYPES_FOUNDATION = [
   'small', 'medium', 'large', 'xlarge', 'xxlarge'
 ];
 export const MEDIA_QUERY_TYPES_BOOTSTRAP = [
-  'xs', 'sm', 'md', 'lg', 'xl'
+  'xs', 'sm', 'md', 'lg', 'xl', 'xxl'
 ];
 
 /**
@@ -133,7 +133,3 @@ export class ViewportService {
     };
   }
 }
-
-export const ViewportProvider = new ViewportService(
-  MEDIA_QUERY_TYPES_FOUNDATION);
-export default ViewportProvider;

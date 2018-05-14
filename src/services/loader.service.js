@@ -74,6 +74,3 @@ export class LoaderService {
     });
   }
 }
-
-export const LoaderProvider = new LoaderService();
-export default LoaderProvider;

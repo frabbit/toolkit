@@ -4,6 +4,7 @@ import UAParser from "ua-parser-js/dist/ua-parser.pack";
  * detection service
  *
  * @author Darius Sobczak<darius.sobczak@db-n.com>
+ * @dependecy ua-parser-js
  */
 export class DetectionService {
   /**
@@ -56,6 +57,3 @@ export class DetectionService {
     }
   }
 }
-
-export const DetectionProvider = new DetectionService();
-export default DetectionProvider;

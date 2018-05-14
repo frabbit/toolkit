@@ -19,7 +19,9 @@ export const json = {
     try {
       if (type.object(value) || type.array(value)) {
         return value;
-      } else if (this.isStringValid(value)) {
+      }
+
+      if (this.isStringValid(value)) {
         return JSON.parse(value);
       }
     } catch (error) {
@@ -30,7 +32,7 @@ export const json = {
   },
 
   /**
-   * check if string is an possible json string
+   * simple check if string is an possible json string
    *
    * @param value
    * @returns {boolean}

@@ -5,10 +5,10 @@ import { type } from "./type";
  *
  * @example
  *  const a = {b: 1};
- *  resolveNodeBySelector('a.b').then(b => 1)
- *   *
+ *  resolveNodeBySelector('a.b', a).then(b => 1)
+ *
  * @param selector
- * @param root
+ * @param root default is window
  * @returns {Promise}
  */
 export function resolveNodeBySelector(selector, root = window) {

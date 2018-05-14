@@ -18,6 +18,9 @@ const methods = ['error', 'warn', 'info', 'log', 'debug', 'group', 'groupEnd', '
  * Logger service class
  */
 export class LoggerService {
+  /**
+   * @param logLevel
+   */
   constructor(logLevel) {
     this.supported = typeof window.console === 'object';
     this.supportedMethod = {};
@@ -68,6 +71,3 @@ export class LoggerService {
     return this;
   }
 }
-
-export const Logger = new LoggerService(LEVEL_ERROR);
-export default Logger;

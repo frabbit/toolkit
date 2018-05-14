@@ -69,6 +69,3 @@ export class Storage {
     return this;
   }
 }
-
-export const LocalStorage = new Storage(TYPE_LOCAL);
-export const SessionStorage = new Storage(TYPE_SESSION);

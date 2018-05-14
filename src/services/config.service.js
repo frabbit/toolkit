@@ -8,6 +8,7 @@ class ConfigService {
    * load configuration json script by node id
    *
    * @param name
+   * @returns {Promise<any>}
    */
   load(name) {
     return new Promise((resolve, reject) => {
@@ -25,7 +26,7 @@ class ConfigService {
         if (json) {
           resolve(json);
         } else {
-          throw new Error('Configuration not valid');
+          throw 'Configuration not valid';
         }
 
       } catch (error) {
@@ -34,6 +35,3 @@ class ConfigService {
     });
   }
 }
-
-export const ConfigProvider = new ConfigService();
-export default ConfigProvider;

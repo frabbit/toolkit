@@ -1,5 +1,3 @@
-import ViewportProvider from "./viewport.service";
-import Logger from "./logger.service";
 import { delay } from "../utils/delay";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
@@ -14,30 +12,36 @@ let index = 0;
  */
 export class BoundsService {
   /**
-   * constructor
+   *
+   * @param {ViewportService} viewport
+   * @param minCoverage
    */
-  constructor(minCoverage = 0.1) {
+  constructor(viewport, minCoverage = 0.1) {
     index++;
 
     this.minCoverage = minCoverage;
     this.index = index;
     this.bounding = [];
-    this.scrollSubscription = ViewportProvider
-      .onScrollTop
-      .subscribe(() => {
+
+    this.detectBounding = () => {
+      // trigger all boundings
+      Observable
+        .from(this.bounding)
+        .subscribe(bounding => {
+          const nextBounding = this.getBounding(bounding.element);
+          bounding.subject.next(nextBounding);
+        });
+    };
+    this.lazyDetectBouding = () => {
         // wait after 1ms, call deley for better performce
         delay(`BoundsService_${this.index}:scroll`, 1)
-          .then(() => {
-            // trigger all boundings
-            Observable
-              .from(this.bounding)
-              .subscribe(bounding => {
-                const nextBounding = this.getBounding(bounding.element);
-                bounding.subject.next(nextBounding);
-              });
-          });
-      });
+          .then(this.detectBounding);
+    };
+
+    this.scrollSubscription = viewport.onScrollTop.subscribe(this.lazyDetectBouding);
+    this.resizeSubscription = viewport.onResize.subscribe(this.lazyDetectBouding);
   }
+
 
   /**
    * check how much an element is inside the view port
@@ -91,7 +95,7 @@ export class BoundsService {
 
   /**
    * @param element
-   * @returns {BehaviorSubject}
+   * @returns {BehaviorSubject<{element: *, getScreenCoverage: number, inBounds: boolean}>}
    */
   onScreen(element) {
     const initBounding = this.getBounding(element);
@@ -103,12 +107,9 @@ export class BoundsService {
         subject,
       });
     } else {
-      Logger.warn('element not an bounds rectangle node');
+      throw 'element not an bounds rectangle node';
     }
 
     return subject;
   }
 }
-
-export const BoundsProvider = new BoundsService();
-export default BoundsProvider;
