@@ -17,7 +17,23 @@ export class Storage {
     this.handler = window[this.handlerName];
 
     if (!type.object(this.handler)) {
-      throw new Error('Not supported storage type', storageType);
+      // add fallback for not supported version
+      this.handler = {
+        _store: {},
+        setItem(name, value) {
+          this._store[name] = value;
+        },
+        getItem(name) {
+          return this._store.hasOwnProperty(name) ? this._store[name] :  null;
+        },
+        removeItem(name) {
+          delete this._store[name];
+        }
+      };
+
+      if (console && console.error) {
+        console.error(`Not supported storage type, ${storageType}`);
+      }
     }
   }
 
