@@ -25,22 +25,3 @@ export function delay(id, time) {
     timers[id] = setTimeout(resolve, time);
   });
 }
-
-
-/**
- * wait x ms to call function
- * @param time
- */
-export function wait(time) {
-  return new Promise(resolve => {
-    setTimeout(resolve, time);
-  });
-}
-
-/**
- * call next tick
- * @returns {*}
- */
-export function tick() {
-  return wait(0);
-}
