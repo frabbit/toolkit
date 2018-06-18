@@ -2,6 +2,8 @@
   "name": "@deepblue/toolkit",
   "version": "1.1.0",
   "description": "toolkit scripts and utilities",
+  "main": "dist/index",
+  "jsnext:main": "src/index",
   "repository": {
     "type": "git",
     "url": "git@github.com:deepblue-networks/toolkit.git"
@@ -31,11 +33,12 @@
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "^1.1.2",
-    "regenerator-runtime": "^0.11.1"
+    "regenerator-runtime": "^0.11.1",
+    "typescript": "^2.9.2"
   },
   "scripts": {
     "test": "jest src --watch",
-    "build": "babel src --out-dir dist --ignore spec.js test.js",
+    "build": "babel src --out-dir dist --ignore spec.js,test.js",
     "build:watch": "cd src && update-call .*js$ babel %0 --out-dir ../dist",
     "build-docs": "jsdoc -r src"
   }
