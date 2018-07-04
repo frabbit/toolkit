@@ -1,10 +1,12 @@
 {
   "name": "@deepblue/toolkit",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "toolkit scripts and utilities",
+  "main": "dist/es5/index",
+  "module": "src/index",
   "repository": {
     "type": "git",
-    "url": "git@github.com:deepblue-networks/toolkit.git"
+    "url": "git@git.db-n.com:dbn-kickstart/toolkit.git"
   },
   "keywords": [
     "services",
@@ -12,14 +14,32 @@
   ],
   "author": "Darius Sobczak<darius.sobczak@db-n.com>",
   "license": "MIT",
+  "peerDependencies": {
+    "vue": "^2.1.0",
+    "ua-parser-js": "^0.7.18"
+  },
   "dependencies": {
     "rxjs": "^5.4.2"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-jest": "^22.4.3",
+    "babel-preset-env": "^1.7.0",
     "glob": "^7.1.2",
-    "karma": "^1.7.1"
+    "jasmine-core": "^3.1.0",
+    "jest": "^22.4.3",
+    "jsdoc": "^3.5.5",
+    "karma": "^1.7.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^1.1.2",
+    "regenerator-runtime": "^0.11.1"
   },
   "scripts": {
-    "test": "karma start"
+    "test": "jest src --watch",
+    "build": "npm run build-es5",
+    "build-es5": "babel src --out-dir dist/es5 --ignore spec.js,test.js",
+    "build:watch": "cd src && update-call .*js$ babel %0 --out-dir ../dist",
+    "build-docs": "jsdoc -r src"
   }
 }

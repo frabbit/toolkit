@@ -7,6 +7,9 @@ import "rxjs/add/observable/fromEvent";
  * @author Darius Sobczak<darius.sobczak@db-n.com>
  */
 export class LoaderService {
+  /**
+   * constructor
+   */
   constructor() {
     this.loaders = {};
     this.root = document.body;
@@ -74,6 +77,3 @@ export class LoaderService {
     });
   }
 }
-
-export const LoaderProvider = new LoaderService();
-export default LoaderProvider;

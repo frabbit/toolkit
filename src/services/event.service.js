@@ -36,6 +36,3 @@ export class EventService {
     return this.subject.filter((e) => e.name === name);
   }
 }
-
-export const EventProvider = new EventService();
-export default EventProvider;

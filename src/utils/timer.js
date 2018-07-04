@@ -1,7 +1,18 @@
 /**
  * Timer helper to generate ticking events
  *
- * @param time
+ * @example
+ *  const timerDirect = new Timer(100, () => {
+ *    console.log('called');
+ *  }, true); // 100ms
+ *
+ *  const timerStopping = new Timer(100);
+ *  timerStopping.onComplete = () => { ... }
+ *  timerStopping.start();
+ *
+ *  timerStopping.isPlaying => true;
+ *  timerStopping.stop();
+ *  timerStopping.isPlaying => false;
  */
 export class Timer {
   /**
@@ -9,11 +20,11 @@ export class Timer {
    *
    * @param time
    */
-  constructor(time)  {
+  constructor(time, callback = () => {}, autostart = false)  {
     this.enable = true;
     this.time = time;
     this.timer = null;
-    this.onComplete = () => {};
+    this.onComplete = callback;
   }
 
   /**
@@ -26,7 +37,7 @@ export class Timer {
   }
 
   /**
-   * stop ticking
+   * stop timer
    */
   stop() {
     if (this.timer) {
@@ -38,7 +49,9 @@ export class Timer {
   }
 
   /**
-   * @return Observable
+   * start the timer
+   *
+   * @returns {Timer}
    */
   start() {
     if (this.isPlaying) {

@@ -1,6 +1,8 @@
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { type } from '../utils/type';
-import { Logger } from './logger.service';
+
+const handler = window.history;
+export const SUPPORTED = type.object(this.handler);
 
 /**
  * History service
@@ -12,17 +14,16 @@ export class HistoryService {
    * constructor
    */
   constructor() {
-    this.handler = window.history;
-    this.isSupported = type.object(this.handler);
+    this.handler = handler;
     this.onChange = new ReplaySubject({});
 
-    if (this.isSupported) {
+    if (SUPPORTED) {
       window.onpopstate = event => {
         this.onChange.next(event.state);
       };
 
-    } else {
-      Logger.warn('feature not supported', 'history');
+    } else  {
+      throw new Error('feature not supported', 'history');
     }
   }
 
@@ -35,13 +36,10 @@ export class HistoryService {
   push(url, title, payload = {}) {
     const state = Object.assign({ url, title }, payload);
 
-    if (this.isSupported) {
+    if (SUPPORTED) {
       this.handler.pushState(state, title, url);
     }
 
     this.onChange.next(state);
   }
 }
-
-export const HistoryProvider = new HistoryService();
-export default HistoryProvider;

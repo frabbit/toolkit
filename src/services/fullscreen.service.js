@@ -3,7 +3,6 @@ import { Subject } from "rxjs/Subject";
 import "rxjs/add/observable/fromEvent";
 
 import { type } from "../utils/type";
-import { Logger } from "./logger.service";
 
 // feature detection and wrapping
 let enableFunction = '';
@@ -51,7 +50,7 @@ class FullscreenService {
   /**
    * constructor
    */
-  constructor() {
+  constructor(logger) {
     this.supported = SUPPORTED;
     this.enableType = enableFunction;
     this.onChange = new Subject();
@@ -123,6 +122,3 @@ class FullscreenService {
     return false;
   }
 }
-
-export const FullscreenProvider = new FullscreenService();
-export default FullscreenProvider;

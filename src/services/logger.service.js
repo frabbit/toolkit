@@ -14,12 +14,17 @@ export const LEVEL_DEBUG = 5;
 
 const methods = ['error', 'warn', 'info', 'log', 'debug', 'group', 'groupEnd', 'time', 'timeEnd'];
 
+export const SUPPORTED = typeof window.console === 'object';
+
 /**
  * Logger service class
  */
 export class LoggerService {
+  /**
+   * @param logLevel
+   */
   constructor(logLevel) {
-    this.supported = typeof window.console === 'object';
+    this.supported = SUPPORTED;
     this.supportedMethod = {};
 
     methods.forEach(method => {
@@ -68,6 +73,3 @@ export class LoggerService {
     return this;
   }
 }
-
-export const Logger = new LoggerService(LEVEL_ERROR);
-export default Logger;
