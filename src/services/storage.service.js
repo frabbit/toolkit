@@ -1,9 +1,11 @@
-import { type } from '@deepblue/toolkit/utils/type';
+import { type } from '../utils/type';
 /**
  * storage service class
  */
 export const TYPE_SESSION = 'session';
 export const TYPE_LOCAL = 'local';
+
+export const SUPPORTED = type.object(window[TYPE_SESSION]);
 
 export class Storage {
   /**

@@ -19,6 +19,7 @@ export class BoundsService {
   constructor(viewport, minCoverage = 0.1) {
     index++;
 
+    this.viewport = viewport;
     this.minCoverage = minCoverage;
     this.index = index;
     this.bounding = [];
@@ -51,7 +52,7 @@ export class BoundsService {
   getScreenCoverage(element) {
     let coverage = 0;
     if (element && element.getBoundingClientRect) {
-      const size = ViewportProvider.size;
+      const size = this.viewport.size;
       const rect = element.getBoundingClientRect();
 
       // is top line in screen

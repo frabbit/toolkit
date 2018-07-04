@@ -1,9 +1,8 @@
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { type } from '../utils/type';
-import { Logger } from './logger.service';
 
 const handler = window.history;
-const SUPPORTED = type.object(this.handler);
+export const SUPPORTED = type.object(this.handler);
 
 /**
  * History service
@@ -23,8 +22,8 @@ export class HistoryService {
         this.onChange.next(event.state);
       };
 
-    } else {
-      Logger.warn('feature not supported', 'history');
+    } else  {
+      throw new Error('feature not supported', 'history');
     }
   }
 
