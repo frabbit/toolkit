@@ -6,7 +6,7 @@
   "module": "src/index",
   "repository": {
     "type": "git",
-    "url": "git@github.com:deepblue-networks/toolkit.git"
+    "url": "git@git.db-n.com:dbn-kickstart/toolkit.git"
   },
   "keywords": [
     "services",
