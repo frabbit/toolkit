@@ -1,4 +1,4 @@
-import UAParser from "ua-parser-js/dist/ua-parser.pack";
+import UAParser from 'ua-parser-js/dist/ua-parser.pack';
 
 /**
  * detection service
@@ -50,9 +50,8 @@ export class DetectionService {
 
       // check if property catch same result
       style[prop] = value;
-      return (style[prop] === value);
-    }
-    catch (e) {
+      return style[prop] === value;
+    } catch (e) {
       return false;
     }
   }

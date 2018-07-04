@@ -3,14 +3,14 @@
  * @param ticks
  * @param time
  */
-export class Ticker{
+export class Ticker {
   /**
    * constructor
    *
    * @param ticks
    * @param time
    */
-  constructor(ticks, time)  {
+  constructor(ticks, time) {
     this.ticks = ticks;
     this.time = time;
     this.currentTick = 0;
@@ -46,8 +46,7 @@ export class Ticker{
       this.currentTick++;
       if (this.currentTick < this.ticks) {
         this.onTick(this.currentTick);
-
-      }  else {
+      } else {
         this.currentTick = 0;
         this.onComplete();
 

@@ -28,7 +28,6 @@ class ConfigService {
         } else {
           throw 'Configuration not valid';
         }
-
       } catch (error) {
         reject(error);
       }

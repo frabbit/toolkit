@@ -35,7 +35,23 @@ var Storage = exports.Storage = function () {
     this.handler = window[this.handlerName];
 
     if (!_type.type.object(this.handler)) {
-      throw new Error('Not supported storage type', storageType);
+      // add fallback for not supported version
+      this.handler = {
+        _store: {},
+        setItem: function setItem(name, value) {
+          this._store[name] = value;
+        },
+        getItem: function getItem(name) {
+          return this._store.hasOwnProperty(name) ? this._store[name] : null;
+        },
+        removeItem: function removeItem(name) {
+          delete this._store[name];
+        }
+      };
+
+      if (console && console.error) {
+        console.error('Not supported storage type, ' + storageType);
+      }
     }
   }
 

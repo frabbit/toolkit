@@ -26,11 +26,11 @@ export class Storage {
           this._store[name] = value;
         },
         getItem(name) {
-          return this._store.hasOwnProperty(name) ? this._store[name] :  null;
+          return this._store.hasOwnProperty(name) ? this._store[name] : null;
         },
         removeItem(name) {
           delete this._store[name];
-        }
+        },
       };
 
       if (console && console.error) {

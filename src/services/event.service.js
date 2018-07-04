@@ -33,6 +33,6 @@ export class EventService {
    * @returns {Observable<IEvent>}
    */
   on(name) {
-    return this.subject.filter((e) => e.name === name);
+    return this.subject.filter(e => e.name === name);
   }
 }

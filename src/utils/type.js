@@ -13,7 +13,7 @@ export const type = {
    * @returns {boolean}
    */
   valid(value) {
-    return (value !== undefined && value !== null);
+    return value !== undefined && value !== null;
   },
 
   /**
@@ -95,5 +95,5 @@ export const type = {
    */
   element(value) {
     return this.object(value) && this.function(value.getBoundingClientRect);
-  }
+  },
 };

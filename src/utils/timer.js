@@ -20,7 +20,7 @@ export class Timer {
    *
    * @param time
    */
-  constructor(time, callback = () => {}, autostart = false)  {
+  constructor(time, callback = () => {}, autostart = false) {
     this.enable = true;
     this.time = time;
     this.timer = null;

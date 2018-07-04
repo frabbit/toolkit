@@ -14,7 +14,7 @@ var _type = require('../utils/type');
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var handler = window.history;
-var SUPPORTED = exports.SUPPORTED = _type.type.object(undefined.handler);
+var SUPPORTED = exports.SUPPORTED = _type.type.object(handler);
 
 /**
  * History service

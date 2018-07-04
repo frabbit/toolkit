@@ -1,4 +1,4 @@
-import { type } from "./type";
+import { type } from './type';
 
 /**
  * object select resolver
@@ -33,7 +33,6 @@ export function resolveNodeBySelector(selector, root = window) {
         node = node[key];
         index++;
       } while (index < length);
-
     } catch (error) {
       reject(error);
     }

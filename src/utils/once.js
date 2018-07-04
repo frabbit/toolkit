@@ -7,10 +7,10 @@
 export function once(callback) {
   let called = false;
 
-  return function () {
+  return function() {
     if (!called) {
       called = true;
       callback();
     }
-  }
+  };
 }

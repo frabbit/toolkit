@@ -3,7 +3,7 @@
  *
  * @author Darius Sobczak<darius.sobczak@db-n.com>
  */
-function noop(...args) { }
+function noop(...args) {}
 
 export const LEVEL_NONE = 0;
 export const LEVEL_ERROR = 1;
@@ -53,23 +53,19 @@ export class LoggerService {
 
     // init all internal log function
     this.error =
-      this.supportedMethod.error && this.logLevel >= LEVEL_ERROR ?
-        console.error.bind(console) :
-        noop;
+      this.supportedMethod.error && this.logLevel >= LEVEL_ERROR
+        ? console.error.bind(console)
+        : noop;
     this.warn =
-      this.supportedMethod.warn && this.logLevel >= LEVEL_WARN ?
-        console.warn.bind(console) :
-        noop;
+      this.supportedMethod.warn && this.logLevel >= LEVEL_WARN ? console.warn.bind(console) : noop;
     this.info =
-      this.supportedMethod.info && this.logLevel >= LEVEL_INFO ?
-        console.info.bind(console) :
-        noop;
-    this.log = this.supportedMethod.log && this.logLevel >= LEVEL_LOG ?
-      console.log.bind(console) :
-      noop;
-    this.debug = this.supportedMethod.debug && this.logLevel >= LEVEL_DEBUG ?
-      console.debug.bind(console) :
-      noop;
+      this.supportedMethod.info && this.logLevel >= LEVEL_INFO ? console.info.bind(console) : noop;
+    this.log =
+      this.supportedMethod.log && this.logLevel >= LEVEL_LOG ? console.log.bind(console) : noop;
+    this.debug =
+      this.supportedMethod.debug && this.logLevel >= LEVEL_DEBUG
+        ? console.debug.bind(console)
+        : noop;
     return this;
   }
 }

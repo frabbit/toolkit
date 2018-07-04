@@ -1,5 +1,5 @@
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/fromEvent";
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromEvent';
 
 /**
  * loader service provider
@@ -39,10 +39,7 @@ export class LoaderService {
 
       this.root.appendChild(tag);
 
-      subscription.subscribe(
-        () => resolve(this.loaders[name]),
-        reject
-      );
+      subscription.subscribe(() => resolve(this.loaders[name]), reject);
     });
   }
 
@@ -70,10 +67,7 @@ export class LoaderService {
 
       this.root.appendChild(tag);
 
-      subscription.subscribe(
-        () => resolve(this.loaders[name]),
-        reject
-      );
+      subscription.subscribe(() => resolve(this.loaders[name]), reject);
     });
   }
 }

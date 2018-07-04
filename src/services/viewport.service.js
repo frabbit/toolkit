@@ -3,12 +3,8 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/filter';
 
-export const MEDIA_QUERY_TYPES_FOUNDATION = [
-  'small', 'medium', 'large', 'xlarge', 'xxlarge'
-];
-export const MEDIA_QUERY_TYPES_BOOTSTRAP = [
-  'xs', 'sm', 'md', 'lg', 'xl', 'xxl'
-];
+export const MEDIA_QUERY_TYPES_FOUNDATION = ['small', 'medium', 'large', 'xlarge', 'xxlarge'];
+export const MEDIA_QUERY_TYPES_BOOTSTRAP = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
 
 /**
  * viewport service
@@ -19,14 +15,17 @@ export class ViewportService {
   /**
    * constructor
    */
-  constructor (mediaQueryTypes) {
+  constructor(mediaQueryTypes) {
     this.rootNode = window;
     this.bodyNode = document.body;
 
     // regist all vieport observer
     this.onResize = Observable.fromEvent(window, 'resize');
-    this.onVisiblityChange = Observable
-      .fromEvent(window, 'visibilitychange', event => !document.hidden);
+    this.onVisiblityChange = Observable.fromEvent(
+      window,
+      'visibilitychange',
+      event => !document.hidden,
+    );
 
     // scrolling observer
     this.onScroll = Observable.fromEvent(this.rootNode, 'scroll');
@@ -49,18 +48,16 @@ export class ViewportService {
   /**
    * init
    */
-  initMediaMatcher (mediaQueryTypes) {
+  initMediaMatcher(mediaQueryTypes) {
     this.mediaQueryTypes = mediaQueryTypes;
     const firstMediaQueryType = this.mediaQueryTypes[0];
 
     // clean old media matcher set
     if (this.mediaMatcher) {
-      Object.keys(this.mediaMatcher).
-        forEach(matcher => matcher.removeListener());
+      Object.keys(this.mediaMatcher).forEach(matcher => matcher.removeListener());
 
       this.onMediaQuery.next(firstMediaQueryType);
-    }
-    else {
+    } else {
       this.onMediaQuery = new BehaviorSubject(firstMediaQueryType);
     }
 
@@ -71,8 +68,7 @@ export class ViewportService {
       if (metaNode) {
         const style = getComputedStyle(metaNode);
         let mediaQueryString = String(style.fontFamily);
-        mediaQueryString = mediaQueryString.substr(1, mediaQueryString.length -
-          2); // trim "
+        mediaQueryString = mediaQueryString.substr(1, mediaQueryString.length - 2); // trim "
         const matcher = window.matchMedia(mediaQueryString);
 
         if (matcher.matches) {
@@ -97,9 +93,8 @@ export class ViewportService {
    *
    * @returns {Number}
    */
-  get scrollTop () {
-    return window.pageYOffset || document.documentElement.scrollTop ||
-      document.body.scrollTop || 0;
+  get scrollTop() {
+    return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
   }
 
   /**
@@ -107,7 +102,7 @@ export class ViewportService {
    *
    * @param {Number} value
    */
-  set scrollTop (value) {
+  set scrollTop(value) {
     if (document.documentElement) {
       document.documentElement.scrollTop = value;
     }
@@ -120,16 +115,10 @@ export class ViewportService {
    *
    * @returns {{width: number, height: number}}
    */
-  get size () {
+  get size() {
     return {
-      width: Math.max(
-        document.documentElement.clientWidth,
-        window.innerWidth || 0,
-      ),
-      height: Math.max(
-        document.documentElement.clientHeight,
-        window.innerHeight || 0,
-      ),
+      width: Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
+      height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
     };
   }
 }

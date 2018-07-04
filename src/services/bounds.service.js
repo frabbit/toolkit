@@ -1,7 +1,7 @@
-import { delay } from "../utils/delay";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/from";
+import { delay } from '../utils/delay';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/from';
 
 let index = 0;
 
@@ -26,23 +26,19 @@ export class BoundsService {
 
     this.detectBounding = () => {
       // trigger all boundings
-      Observable
-        .from(this.bounding)
-        .subscribe(bounding => {
-          const nextBounding = this.getBounding(bounding.element);
-          bounding.subject.next(nextBounding);
-        });
+      Observable.from(this.bounding).subscribe(bounding => {
+        const nextBounding = this.getBounding(bounding.element);
+        bounding.subject.next(nextBounding);
+      });
     };
     this.lazyDetectBouding = () => {
-        // wait after 1ms, call deley for better performce
-        delay(`BoundsService_${this.index}:scroll`, 1)
-          .then(this.detectBounding);
+      // wait after 1ms, call deley for better performce
+      delay(`BoundsService_${this.index}:scroll`, 1).then(this.detectBounding);
     };
 
     this.scrollSubscription = viewport.onScrollTop.subscribe(this.lazyDetectBouding);
     this.resizeSubscription = viewport.onResize.subscribe(this.lazyDetectBouding);
   }
-
 
   /**
    * check how much an element is inside the view port
@@ -57,7 +53,6 @@ export class BoundsService {
 
       // is top line in screen
       if (rect.top - size.height < 0) {
-
         if (rect.top < 0) {
           coverage = rect.bottom / rect.height;
         } else {

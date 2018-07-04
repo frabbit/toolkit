@@ -1,14 +1,16 @@
-import { Observable } from "rxjs/Observable";
-import { Subject } from "rxjs/Subject";
-import "rxjs/add/observable/fromEvent";
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/observable/fromEvent';
 
-import { type } from "../utils/type";
+import { type } from '../utils/type';
 
 // feature detection and wrapping
 let enableFunction = '';
 let disableFunction = '';
 let elementProperty = '';
 let changeEvent = '';
+
+let document = global ? global.document : window.document;
 
 const TEST_NODE = document.createElement('div');
 
@@ -17,25 +19,21 @@ if (TEST_NODE.requestFullscreen) {
   disableFunction = 'exitFullscreen';
   elementProperty = 'fullscreenElement';
   changeEvent = 'fullscreenchange';
-
 } else if (TEST_NODE.mozRequestFullScreen) {
   enableFunction = 'mozRequestFullScreen';
   disableFunction = 'mozCancelFullScreen';
   elementProperty = 'mozFullScreenElement';
   changeEvent = 'mozfullscreenchange';
-
 } else if (TEST_NODE.webkitRequestFullscreen) {
   enableFunction = 'webkitRequestFullscreen';
   disableFunction = 'webkitExitFullscreen';
   elementProperty = 'webkitFullscreenElement';
   changeEvent = 'webkitfullscreenchange';
-
 } else if (TEST_NODE.msRequestFullscreen) {
   enableFunction = 'msRequestFullscreen';
   disableFunction = 'msExitFullscreen';
   elementProperty = 'msFullscreenElement';
   changeEvent = 'MSFullscreenChange';
-
 }
 
 const SUPPORTED = type.function(document[disableFunction]);
@@ -58,17 +56,14 @@ class FullscreenService {
 
     if (!this.supported) {
       Logger.warn('Fullscreen api not supported');
-
     } else {
-      Observable
-        .fromEvent(document, changeEvent)
-        .subscribe(event => {
-          this.onChange.next(event);
+      Observable.fromEvent(document, changeEvent).subscribe(event => {
+        this.onChange.next(event);
 
-          if (!this.isEnable) {
-            this.onExit.next(event);
-          }
-        });
+        if (!this.isEnable) {
+          this.onExit.next(event);
+        }
+      });
     }
   }
 
@@ -100,7 +95,6 @@ class FullscreenService {
       try {
         node[enableFunction]();
         return true;
-
       } catch (error) {
         Logger.error(error);
       }
