@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -7,7 +7,7 @@ exports.DetectionService = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _uaParser = require("ua-parser-js/dist/ua-parser.pack");
+var _uaParser = require('ua-parser-js/dist/ua-parser.pack');
 
 var _uaParser2 = _interopRequireDefault(_uaParser);
 
@@ -40,7 +40,7 @@ var DetectionService = exports.DetectionService = function () {
 
 
   _createClass(DetectionService, [{
-    key: "isStyleSupported",
+    key: 'isStyleSupported',
 
 
     /**
@@ -66,7 +66,7 @@ var DetectionService = exports.DetectionService = function () {
       }
     }
   }, {
-    key: "browser",
+    key: 'browser',
     get: function get() {
       return this.result.browser.name;
     }
@@ -78,7 +78,7 @@ var DetectionService = exports.DetectionService = function () {
      */
 
   }, {
-    key: "device",
+    key: 'device',
     get: function get() {
       return this.result.device.type;
     }

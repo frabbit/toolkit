@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Storage = exports.SUPPORTED = exports.TYPE_LOCAL = exports.TYPE_SESSION = undefined;
+exports.Storage = exports.TYPE_LOCAL = exports.TYPE_SESSION = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -17,8 +17,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var TYPE_SESSION = exports.TYPE_SESSION = 'session';
 var TYPE_LOCAL = exports.TYPE_LOCAL = 'local';
 
-var SUPPORTED = exports.SUPPORTED = _type.type.object(window[TYPE_SESSION]);
-
 var Storage = exports.Storage = function () {
   /**
    * @param storageType valid session type
@@ -29,12 +27,14 @@ var Storage = exports.Storage = function () {
 
     _classCallCheck(this, Storage);
 
+    var scope = global || window;
     this.prefix = prefix;
     this.type = storageType;
     this.handlerName = storageType + 'Storage';
-    this.handler = window[this.handlerName];
+    this.handler = scope[this.handlerName];
+    this.supported = _type.type.object(this.handler);
 
-    if (!_type.type.object(this.handler)) {
+    if (!this.supported) {
       // add fallback for not supported version
       this.handler = {
         _store: {},
@@ -48,10 +48,6 @@ var Storage = exports.Storage = function () {
           delete this._store[name];
         }
       };
-
-      if (console && console.error) {
-        console.error('Not supported storage type, ' + storageType);
-      }
     }
   }
 

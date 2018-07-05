@@ -1,11 +1,11 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.tick = tick;
 
-var _wait = require("./wait");
+var _wait = require('./wait');
 
 /**
  * call next tick

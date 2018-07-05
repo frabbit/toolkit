@@ -14,8 +14,6 @@ export const LEVEL_DEBUG = 5;
 
 const methods = ['error', 'warn', 'info', 'log', 'debug', 'group', 'groupEnd', 'time', 'timeEnd'];
 
-export const SUPPORTED = typeof window.console === 'object';
-
 /**
  * Logger service class
  */
@@ -24,7 +22,8 @@ export class LoggerService {
    * @param logLevel
    */
   constructor(logLevel) {
-    this.supported = SUPPORTED;
+    const scope = global || window;
+    this.supported = scope['console'] === 'object';
     this.supportedMethod = {};
 
     methods.forEach(method => {
@@ -46,7 +45,7 @@ export class LoggerService {
    */
   setLevel(logLevel) {
     if (this.supported) {
-      console.info('Logger level', logLevel);
+      this.info('Logger level', logLevel);
     }
 
     this.logLevel = logLevel;

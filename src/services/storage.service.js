@@ -5,20 +5,20 @@ import { type } from '../utils/type';
 export const TYPE_SESSION = 'session';
 export const TYPE_LOCAL = 'local';
 
-export const SUPPORTED = type.object(window[TYPE_SESSION]);
-
 export class Storage {
   /**
    * @param storageType valid session type
    * @param prefix internal prefix predefine
    */
   constructor(storageType, prefix = '') {
+    const scope = global || window;
     this.prefix = prefix;
     this.type = storageType;
     this.handlerName = `${storageType}Storage`;
-    this.handler = window[this.handlerName];
+    this.handler = scope[this.handlerName];
+    this.supported = type.object(this.handler);
 
-    if (!type.object(this.handler)) {
+    if (!this.supported) {
       // add fallback for not supported version
       this.handler = {
         _store: {},
@@ -32,10 +32,6 @@ export class Storage {
           delete this._store[name];
         },
       };
-
-      if (console && console.error) {
-        console.error(`Not supported storage type, ${storageType}`);
-      }
     }
   }
 

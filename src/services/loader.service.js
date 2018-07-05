@@ -5,6 +5,7 @@ import 'rxjs/add/observable/fromEvent';
  * loader service provider
  *
  * @author Darius Sobczak<darius.sobczak@db-n.com>
+ * @info only dom support
  */
 export class LoaderService {
   /**
@@ -12,7 +13,8 @@ export class LoaderService {
    */
   constructor() {
     this.loaders = {};
-    this.root = document.body;
+    this.isBrowser = typeof document === 'object';
+    this.root = this.isBrowser ? document.body : null;
   }
 
   /**
@@ -23,23 +25,26 @@ export class LoaderService {
    */
   loadStylesheet(file) {
     return new Promise((resolve, reject) => {
-      if (this.loaders[file]) {
-        return resolve(this.loaders[name]);
+      if (this.root) {
+
+        if (this.loaders[file]) {
+          return resolve(this.loaders[name]);
+        }
+
+        const tag = document.createElement('link');
+        tag.rel = `stylesheet`;
+        tag.href = file;
+        const subscription = Observable.fromEvent(tag, 'load');
+
+        this.loaders[file] = {
+          tag,
+          subscription,
+        };
+
+        this.root.appendChild(tag);
+
+        subscription.subscribe(() => resolve(this.loaders[name]), reject);
       }
-
-      const tag = document.createElement('link');
-      tag.rel = `stylesheet`;
-      tag.href = file;
-      const subscription = Observable.fromEvent(tag, 'load');
-
-      this.loaders[file] = {
-        tag,
-        subscription,
-      };
-
-      this.root.appendChild(tag);
-
-      subscription.subscribe(() => resolve(this.loaders[name]), reject);
     });
   }
 
@@ -51,23 +56,25 @@ export class LoaderService {
    */
   loadScript(file) {
     return new Promise((resolve, reject) => {
-      if (this.loaders[file]) {
-        return resolve(this.loaders[name]);
+      if (this.root) {
+        if (this.loaders[file]) {
+          return resolve(this.loaders[name]);
+        }
+
+        const tag = document.createElement('script');
+        tag.src = file;
+        tag.async = true;
+        const subscription = Observable.fromEvent(tag, 'load');
+
+        this.loaders[file] = {
+          tag,
+          subscription,
+        };
+
+        this.root.appendChild(tag);
+
+        subscription.subscribe(() => resolve(this.loaders[name]), reject);
       }
-
-      const tag = document.createElement('script');
-      tag.src = file;
-      tag.async = true;
-      const subscription = Observable.fromEvent(tag, 'load');
-
-      this.loaders[file] = {
-        tag,
-        subscription,
-      };
-
-      this.root.appendChild(tag);
-
-      subscription.subscribe(() => resolve(this.loaders[name]), reject);
     });
   }
 }

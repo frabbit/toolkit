@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -7,13 +7,13 @@ exports.BoundsService = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _delay = require("../utils/delay");
+var _delay = require('../utils/delay');
 
-var _BehaviorSubject = require("rxjs/BehaviorSubject");
+var _BehaviorSubject = require('rxjs/BehaviorSubject');
 
-var _Observable = require("rxjs/Observable");
+var _Observable = require('rxjs/Observable');
 
-require("rxjs/add/observable/from");
+require('rxjs/add/observable/from');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -54,7 +54,7 @@ var BoundsService = exports.BoundsService = function () {
     };
     this.lazyDetectBouding = function () {
       // wait after 1ms, call deley for better performce
-      (0, _delay.delay)("BoundsService_" + _this.index + ":scroll", 1).then(_this.detectBounding);
+      (0, _delay.delay)('BoundsService_' + _this.index + ':scroll', 1).then(_this.detectBounding);
     };
 
     this.scrollSubscription = viewport.onScrollTop.subscribe(this.lazyDetectBouding);
@@ -69,7 +69,7 @@ var BoundsService = exports.BoundsService = function () {
 
 
   _createClass(BoundsService, [{
-    key: "getScreenCoverage",
+    key: 'getScreenCoverage',
     value: function getScreenCoverage(element) {
       var coverage = 0;
       if (element && element.getBoundingClientRect) {
@@ -78,7 +78,6 @@ var BoundsService = exports.BoundsService = function () {
 
         // is top line in screen
         if (rect.top - size.height < 0) {
-
           if (rect.top < 0) {
             coverage = rect.bottom / rect.height;
           } else {
@@ -105,7 +104,7 @@ var BoundsService = exports.BoundsService = function () {
      */
 
   }, {
-    key: "getBounding",
+    key: 'getBounding',
     value: function getBounding(element) {
       var coverage = this.getScreenCoverage(element);
 
@@ -124,7 +123,7 @@ var BoundsService = exports.BoundsService = function () {
      */
 
   }, {
-    key: "onScreen",
+    key: 'onScreen',
     value: function onScreen(element) {
       var initBounding = this.getBounding(element);
       var subject = new _BehaviorSubject.BehaviorSubject(initBounding);

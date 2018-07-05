@@ -1,10 +1,22 @@
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/filter';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
-export const MEDIA_QUERY_TYPES_FOUNDATION = ['small', 'medium', 'large', 'xlarge', 'xxlarge'];
-export const MEDIA_QUERY_TYPES_BOOTSTRAP = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
+export const MEDIA_QUERY_TYPES_FOUNDATION = [
+  'small',
+  'medium',
+  'large',
+  'xlarge',
+  'xxlarge'];
+export const MEDIA_QUERY_TYPES_BOOTSTRAP = [
+  'xs',
+  'sm',
+  'md',
+  'lg',
+  'xl',
+  'xxl'];
 
 /**
  * viewport service
@@ -15,61 +27,83 @@ export class ViewportService {
   /**
    * constructor
    */
-  constructor(mediaQueryTypes) {
-    this.rootNode = window;
-    this.bodyNode = document.body;
+  constructor (mediaQueryTypes = MEDIA_QUERY_TYPES_FOUNDATION) {
+    this.scope = global || window;
+    this.isBrowser = typeof document === 'object';
+    this.document = this.isBrowser ? document : null;
+    this.rootNode = this.scope;
+    this.bodyNode = this.isBrowser ? document.body : null;
 
-    // regist all vieport observer
-    this.onResize = Observable.fromEvent(window, 'resize');
-    this.onVisiblityChange = Observable.fromEvent(
-      window,
-      'visibilitychange',
-      event => !document.hidden,
-    );
+    if (this.isBrowser) {
+      // regist all vieport observer
+      this.onResize = Observable.fromEvent(this.scope, 'resize');
+      this.onVisiblityChange = Observable.fromEvent(
+        this.scope,
+        'visibilitychange',
+        event => !this.document.hidden,
+      );
 
-    // scrolling observer
-    this.onScroll = Observable.fromEvent(this.rootNode, 'scroll');
-    this.onScrollTop = new BehaviorSubject(this.scrollTop);
+      // scrolling observer
+      this.onScroll = Observable.fromEvent(this.rootNode, 'scroll');
+      this.onScrollTop = new BehaviorSubject(this.scrollTop);
 
-    this.onScroll.subscribe(event => {
-      this.onScrollTop.next(this.scrollTop);
-    });
+      this.onScroll.subscribe(event => {
+        this.onScrollTop.next(this.scrollTop);
+      });
 
-    // delete observer
-    this.onDestory = Observable.fromEvent(this.rootNode, 'beforeunload');
+      // delete observer
+      this.onDestory = Observable.fromEvent(this.rootNode, 'beforeunload');
 
-    // init scroll top value
-    this.scrollTop = this.scrollTop;
+      // init scroll top value
+      this.scrollTop = this.scrollTop;
 
-    // init media query listeners
-    this.initMediaMatcher(mediaQueryTypes);
+      // init media query listeners
+      this.initMediaMatcher(mediaQueryTypes);
+    }
+    else {
+      const subjects = [
+        'onResize',
+        'onVisiblityChange',
+        'onScroll',
+        'onScrollTop',
+        'onDestory',
+        'onMediaQuery'
+      ];
+      subjects.forEach(name => {
+        this[name] = new Subject();
+      });
+    }
   }
 
   /**
    * init
    */
-  initMediaMatcher(mediaQueryTypes) {
+  initMediaMatcher (mediaQueryTypes) {
     this.mediaQueryTypes = mediaQueryTypes;
     const firstMediaQueryType = this.mediaQueryTypes[0];
 
     // clean old media matcher set
     if (this.mediaMatcher) {
-      Object.keys(this.mediaMatcher).forEach(matcher => matcher.removeListener());
+      Object.keys(this.mediaMatcher).
+        forEach(matcher => matcher.removeListener());
 
       this.onMediaQuery.next(firstMediaQueryType);
-    } else {
+    }
+    else {
       this.onMediaQuery = new BehaviorSubject(firstMediaQueryType);
     }
 
     this.mediaMatcher = {};
 
     this.mediaQueryTypes.forEach(name => {
-      const metaNode = document.querySelector(`meta[name="media:${name}"]`);
+      const metaNode = this.document ||
+        this.document.querySelector(`meta[name="media:${name}"]`);
       if (metaNode) {
         const style = getComputedStyle(metaNode);
         let mediaQueryString = String(style.fontFamily);
-        mediaQueryString = mediaQueryString.substr(1, mediaQueryString.length - 2); // trim "
-        const matcher = window.matchMedia(mediaQueryString);
+        mediaQueryString = mediaQueryString.substr(1, mediaQueryString.length -
+          2); // trim "
+        const matcher = this.scope.matchMedia(mediaQueryString);
 
         if (matcher.matches) {
           // predefine right value
@@ -93,8 +127,12 @@ export class ViewportService {
    *
    * @returns {Number}
    */
-  get scrollTop() {
-    return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+  get scrollTop () {
+    if (this.isBrowser) {
+      return this.scope.pageYOffset || document.documentElement.scrollTop ||
+        this.bodyNode.scrollTop || 0;
+    }
+    return 0;
   }
 
   /**
@@ -102,12 +140,14 @@ export class ViewportService {
    *
    * @param {Number} value
    */
-  set scrollTop(value) {
-    if (document.documentElement) {
-      document.documentElement.scrollTop = value;
-    }
+  set scrollTop (value) {
+    if (this.isBrowser) {
+      if (document.documentElement) {
+        document.documentElement.scrollTop = value;
+      }
 
-    this.bodyNode.scrollTop = value;
+      this.bodyNode.scrollTop = value;
+    }
   }
 
   /**
@@ -115,10 +155,15 @@ export class ViewportService {
    *
    * @returns {{width: number, height: number}}
    */
-  get size() {
-    return {
-      width: Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
-      height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
-    };
+  get size () {
+    if (this.isBrowser) {
+      return {
+        width: Math.max(
+          document.documentElement.clientWidth, window.innerWidth || 0),
+        height: Math.max(
+          document.documentElement.clientHeight, window.innerHeight || 0),
+      };
+    }
+    return { width: 0, height: 0 };
   }
 }

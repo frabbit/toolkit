@@ -15,7 +15,7 @@
   "author": "Darius Sobczak<darius.sobczak@db-n.com>",
   "license": "MIT",
   "peerDependencies": {
-    "vue": "^2.1.0",
+    "vue": "~2.0.0",
     "ua-parser-js": "^0.7.18"
   },
   "dependencies": {
@@ -30,7 +30,7 @@
     "jasmine-core": "^3.1.0",
     "jest": "^22.4.3",
     "jsdoc": "^3.5.5",
-    "karma": "^1.7.1",
+    "karma": "^2.0.4",
     "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "^1.1.2",
     "regenerator-runtime": "^0.11.1"

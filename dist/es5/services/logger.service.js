@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
@@ -26,8 +24,6 @@ var LEVEL_DEBUG = exports.LEVEL_DEBUG = 5;
 
 var methods = ['error', 'warn', 'info', 'log', 'debug', 'group', 'groupEnd', 'time', 'timeEnd'];
 
-var SUPPORTED = exports.SUPPORTED = _typeof(window.console) === 'object';
-
 /**
  * Logger service class
  */
@@ -41,7 +37,8 @@ var LoggerService = exports.LoggerService = function () {
 
     _classCallCheck(this, LoggerService);
 
-    this.supported = SUPPORTED;
+    var scope = global || window;
+    this.supported = scope['console'] === 'object';
     this.supportedMethod = {};
 
     methods.forEach(function (method) {
@@ -67,7 +64,7 @@ var LoggerService = exports.LoggerService = function () {
     key: 'setLevel',
     value: function setLevel(logLevel) {
       if (this.supported) {
-        console.info('Logger level', logLevel);
+        this.info('Logger level', logLevel);
       }
 
       this.logLevel = logLevel;

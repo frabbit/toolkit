@@ -10,33 +10,38 @@ let disableFunction = '';
 let elementProperty = '';
 let changeEvent = '';
 
-let document = global ? global.document : window.document;
+// detect browser or node env
+let scope = typeof document === 'object' ? document : null;
 
-const TEST_NODE = document.createElement('div');
+// only browser have a create document
+if (scope) {
+  const TEST_NODE = scope.createElement('div');
 
-if (TEST_NODE.requestFullscreen) {
-  enableFunction = 'requestFullscreen';
-  disableFunction = 'exitFullscreen';
-  elementProperty = 'fullscreenElement';
-  changeEvent = 'fullscreenchange';
-} else if (TEST_NODE.mozRequestFullScreen) {
-  enableFunction = 'mozRequestFullScreen';
-  disableFunction = 'mozCancelFullScreen';
-  elementProperty = 'mozFullScreenElement';
-  changeEvent = 'mozfullscreenchange';
-} else if (TEST_NODE.webkitRequestFullscreen) {
-  enableFunction = 'webkitRequestFullscreen';
-  disableFunction = 'webkitExitFullscreen';
-  elementProperty = 'webkitFullscreenElement';
-  changeEvent = 'webkitfullscreenchange';
-} else if (TEST_NODE.msRequestFullscreen) {
-  enableFunction = 'msRequestFullscreen';
-  disableFunction = 'msExitFullscreen';
-  elementProperty = 'msFullscreenElement';
-  changeEvent = 'MSFullscreenChange';
+  if (TEST_NODE.requestFullscreen) {
+    enableFunction = 'requestFullscreen';
+    disableFunction = 'exitFullscreen';
+    elementProperty = 'fullscreenElement';
+    changeEvent = 'fullscreenchange';
+  }
+  else if (TEST_NODE.mozRequestFullScreen) {
+    enableFunction = 'mozRequestFullScreen';
+    disableFunction = 'mozCancelFullScreen';
+    elementProperty = 'mozFullScreenElement';
+    changeEvent = 'mozfullscreenchange';
+  }
+  else if (TEST_NODE.webkitRequestFullscreen) {
+    enableFunction = 'webkitRequestFullscreen';
+    disableFunction = 'webkitExitFullscreen';
+    elementProperty = 'webkitFullscreenElement';
+    changeEvent = 'webkitfullscreenchange';
+  }
+  else if (TEST_NODE.msRequestFullscreen) {
+    enableFunction = 'msRequestFullscreen';
+    disableFunction = 'msExitFullscreen';
+    elementProperty = 'msFullscreenElement';
+    changeEvent = 'MSFullscreenChange';
+  }
 }
-
-const SUPPORTED = type.function(document[disableFunction]);
 
 /**
  * fullscreen service
@@ -47,23 +52,26 @@ const SUPPORTED = type.function(document[disableFunction]);
 class FullscreenService {
   /**
    * constructor
+   *
+   * @param logger
    */
   constructor(logger) {
-    this.supported = SUPPORTED;
+    this.logger = logger;
+    this.supported = type.function(scope[disableFunction]);
     this.enableType = enableFunction;
     this.onChange = new Subject();
     this.onExit = new Subject();
 
-    if (!this.supported) {
-      Logger.warn('Fullscreen api not supported');
-    } else {
-      Observable.fromEvent(document, changeEvent).subscribe(event => {
+    if (this.supported) {
+      Observable.fromEvent(scope, changeEvent).subscribe(event => {
         this.onChange.next(event);
 
         if (!this.isEnable) {
           this.onExit.next(event);
         }
       });
+    } else if (this.logger) {
+      this.logger.warn('Fullscreen handling not supported');
     }
   }
 
@@ -73,7 +81,7 @@ class FullscreenService {
    * @returns {*}
    */
   get currentNode() {
-    return document[elementProperty];
+    return scope[elementProperty];
   }
 
   /**
@@ -96,7 +104,9 @@ class FullscreenService {
         node[enableFunction]();
         return true;
       } catch (error) {
-        Logger.error(error);
+        if (this.logger) {
+          this.logger.error(error);
+        }
       }
     }
 
@@ -110,7 +120,8 @@ class FullscreenService {
    */
   disable() {
     if (this.supported) {
-      document[disableFunction]();
+      scope[disableFunction]();
+      return true;
     }
 
     return false;
