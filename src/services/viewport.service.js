@@ -96,8 +96,7 @@ export class ViewportService {
     this.mediaMatcher = {};
 
     this.mediaQueryTypes.forEach(name => {
-      const metaNode = this.document ||
-        this.document.querySelector(`meta[name="media:${name}"]`);
+      const metaNode = document.querySelector(`meta[name="media:${name}"]`);
       if (metaNode) {
         const style = getComputedStyle(metaNode);
         let mediaQueryString = String(style.fontFamily);
