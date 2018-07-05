@@ -1,6 +1,6 @@
 {
   "name": "@deepblue/toolkit",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "toolkit scripts and utilities",
   "main": "dist/es5/index",
   "module": "src/index",
