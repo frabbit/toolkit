@@ -1,8 +1,4 @@
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/filter';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject, Observable, Subject, fromEvent } from 'rxjs';
 
 export const MEDIA_QUERY_TYPES_FOUNDATION = [
   'small',
@@ -36,15 +32,15 @@ export class ViewportService {
 
     if (this.isBrowser) {
       // regist all vieport observer
-      this.onResize = Observable.fromEvent(this.scope, 'resize');
-      this.onVisiblityChange = Observable.fromEvent(
+      this.onResize = fromEvent(this.scope, 'resize');
+      this.onVisiblityChange = fromEvent(
         this.scope,
         'visibilitychange',
         event => !this.document.hidden,
       );
 
       // scrolling observer
-      this.onScroll = Observable.fromEvent(this.rootNode, 'scroll');
+      this.onScroll = fromEvent(this.rootNode, 'scroll');
       this.onScrollTop = new BehaviorSubject(this.scrollTop);
 
       this.onScroll.subscribe(event => {
@@ -52,7 +48,7 @@ export class ViewportService {
       });
 
       // delete observer
-      this.onDestory = Observable.fromEvent(this.rootNode, 'beforeunload');
+      this.onDestory = fromEvent(this.rootNode, 'beforeunload');
 
       // init scroll top value
       this.scrollTop = this.scrollTop;

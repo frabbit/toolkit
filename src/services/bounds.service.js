@@ -1,7 +1,7 @@
 import { delay } from '../utils/delay';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/from';
+import { BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
+import { from } from 'rxjs';
 
 let index = 0;
 
@@ -26,7 +26,7 @@ export class BoundsService {
 
     this.detectBounding = () => {
       // trigger all boundings
-      Observable.from(this.bounding).subscribe(bounding => {
+      from(this.bounding).subscribe(bounding => {
         const nextBounding = this.getBounding(bounding.element);
         bounding.subject.next(nextBounding);
       });

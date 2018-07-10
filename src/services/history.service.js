@@ -1,4 +1,4 @@
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { ReplaySubject } from 'rxjs';
 import { type } from '../utils/type';
 
 const handler = global ? global.history : window.history;
