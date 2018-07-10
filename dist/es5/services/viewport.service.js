@@ -9,15 +9,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-require('rxjs/add/observable/fromEvent');
-
-require('rxjs/add/operator/filter');
-
-var _BehaviorSubject = require('rxjs/BehaviorSubject');
-
-var _Observable = require('rxjs/Observable');
-
-var _Subject = require('rxjs/Subject');
+var _rxjs = require('rxjs');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -49,21 +41,21 @@ var ViewportService = exports.ViewportService = function () {
 
     if (this.isBrowser) {
       // regist all vieport observer
-      this.onResize = _Observable.Observable.fromEvent(this.scope, 'resize');
-      this.onVisiblityChange = _Observable.Observable.fromEvent(this.scope, 'visibilitychange', function (event) {
+      this.onResize = (0, _rxjs.fromEvent)(this.scope, 'resize');
+      this.onVisiblityChange = (0, _rxjs.fromEvent)(this.scope, 'visibilitychange', function (event) {
         return !_this.document.hidden;
       });
 
       // scrolling observer
-      this.onScroll = _Observable.Observable.fromEvent(this.rootNode, 'scroll');
-      this.onScrollTop = new _BehaviorSubject.BehaviorSubject(this.scrollTop);
+      this.onScroll = (0, _rxjs.fromEvent)(this.rootNode, 'scroll');
+      this.onScrollTop = new _rxjs.BehaviorSubject(this.scrollTop);
 
       this.onScroll.subscribe(function (event) {
         _this.onScrollTop.next(_this.scrollTop);
       });
 
       // delete observer
-      this.onDestory = _Observable.Observable.fromEvent(this.rootNode, 'beforeunload');
+      this.onDestory = (0, _rxjs.fromEvent)(this.rootNode, 'beforeunload');
 
       // init scroll top value
       this.scrollTop = this.scrollTop;
@@ -73,7 +65,7 @@ var ViewportService = exports.ViewportService = function () {
     } else {
       var subjects = ['onResize', 'onVisiblityChange', 'onScroll', 'onScrollTop', 'onDestory', 'onMediaQuery'];
       subjects.forEach(function (name) {
-        _this[name] = new _Subject.Subject();
+        _this[name] = new _rxjs.Subject();
       });
     }
   }
@@ -99,13 +91,13 @@ var ViewportService = exports.ViewportService = function () {
 
         this.onMediaQuery.next(firstMediaQueryType);
       } else {
-        this.onMediaQuery = new _BehaviorSubject.BehaviorSubject(firstMediaQueryType);
+        this.onMediaQuery = new _rxjs.BehaviorSubject(firstMediaQueryType);
       }
 
       this.mediaMatcher = {};
 
       this.mediaQueryTypes.forEach(function (name) {
-        var metaNode = _this2.document || _this2.document.querySelector('meta[name="media:' + name + '"]');
+        var metaNode = document.querySelector('meta[name="media:' + name + '"]');
         if (metaNode) {
           var style = getComputedStyle(metaNode);
           var mediaQueryString = String(style.fontFamily);

@@ -9,9 +9,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Observable = require('rxjs/Observable');
-
-require('rxjs/add/observable/fromEvent');
+var _rxjs = require('rxjs');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -56,7 +54,7 @@ var LoaderService = exports.LoaderService = function () {
           var tag = document.createElement('link');
           tag.rel = 'stylesheet';
           tag.href = file;
-          var subscription = _Observable.Observable.fromEvent(tag, 'load');
+          var subscription = (0, _rxjs.fromEvent)(tag, 'load');
 
           _this.loaders[file] = {
             tag: tag,
@@ -93,7 +91,7 @@ var LoaderService = exports.LoaderService = function () {
           var tag = document.createElement('script');
           tag.src = file;
           tag.async = true;
-          var subscription = _Observable.Observable.fromEvent(tag, 'load');
+          var subscription = _rxjs.Observable.fromEvent(tag, 'load');
 
           _this2.loaders[file] = {
             tag: tag,

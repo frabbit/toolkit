@@ -9,11 +9,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _delay = require('../utils/delay');
 
-var _BehaviorSubject = require('rxjs/BehaviorSubject');
-
-var _Observable = require('rxjs/Observable');
-
-require('rxjs/add/observable/from');
+var _rxjs = require('rxjs');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -47,7 +43,7 @@ var BoundsService = exports.BoundsService = function () {
 
     this.detectBounding = function () {
       // trigger all boundings
-      _Observable.Observable.from(_this.bounding).subscribe(function (bounding) {
+      (0, _rxjs.from)(_this.bounding).subscribe(function (bounding) {
         var nextBounding = _this.getBounding(bounding.element);
         bounding.subject.next(nextBounding);
       });
@@ -126,7 +122,7 @@ var BoundsService = exports.BoundsService = function () {
     key: 'onScreen',
     value: function onScreen(element) {
       var initBounding = this.getBounding(element);
-      var subject = new _BehaviorSubject.BehaviorSubject(initBounding);
+      var subject = new _rxjs.BehaviorSubject(initBounding);
 
       if (element && element.getBoundingClientRect) {
         this.bounding.push({

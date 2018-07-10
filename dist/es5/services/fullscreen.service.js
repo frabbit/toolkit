@@ -4,11 +4,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _Observable = require('rxjs/Observable');
-
-var _Subject = require('rxjs/Subject');
-
-require('rxjs/add/observable/fromEvent');
+var _rxjs = require('rxjs');
 
 var _type = require('../utils/type');
 
@@ -71,11 +67,11 @@ var FullscreenService = function () {
     this.logger = logger;
     this.supported = _type.type.function(scope[disableFunction]);
     this.enableType = enableFunction;
-    this.onChange = new _Subject.Subject();
-    this.onExit = new _Subject.Subject();
+    this.onChange = new _rxjs.Subject();
+    this.onExit = new _rxjs.Subject();
 
     if (this.supported) {
-      _Observable.Observable.fromEvent(scope, changeEvent).subscribe(function (event) {
+      (0, _rxjs.fromEvent)(scope, changeEvent).subscribe(function (event) {
         _this.onChange.next(event);
 
         if (!_this.isEnable) {
